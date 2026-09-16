@@ -1,0 +1,217 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-sans: var(--font-instrument), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, "SF Mono", Menlo, monospace;
+
+  --color-canvas: var(--canvas);
+  --color-surface: var(--surface);
+  --color-raised: var(--raised);
+  --color-line: var(--line);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-faint: var(--faint);
+  --color-accent: var(--accent);
+  --color-accent-ink: var(--accent-ink);
+  --color-accent-soft: var(--accent-soft);
+  --color-danger: var(--danger);
+  --color-danger-soft: var(--danger-soft);
+  --color-user-bubble: var(--user-bubble);
+}
+
+:root {
+  --canvas: #f6f6f7;
+  --surface: #ffffff;
+  --raised: #ececee;
+  --line: #e3e3e6;
+  --ink: #18181b;
+  --muted: #6e6e78;
+  --faint: #a1a1aa;
+  --accent: #3457d5;
+  --accent-ink: #ffffff;
+  --accent-soft: #e8edfc;
+  --danger: #c2410c;
+  --danger-soft: #fdebe1;
+  --user-bubble: #ebebee;
+  color-scheme: light;
+}
+
+.dark {
+  --canvas: #141417;
+  --surface: #1c1c21;
+  --raised: #26262c;
+  --line: #2b2b32;
+  --ink: #ececef;
+  --muted: #9a9aa5;
+  --faint: #6a6a75;
+  --accent: #8aa0ff;
+  --accent-ink: #0f1633;
+  --accent-soft: #232a4a;
+  --danger: #fb923c;
+  --danger-soft: #3a2415;
+  --user-bubble: #26262c;
+  color-scheme: dark;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  background: var(--canvas);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+* {
+  border-color: var(--line);
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+::selection {
+  background: var(--accent-soft);
+}
+
+/* Thin, unobtrusive scrollbars */
+.scroll-thin {
+  scrollbar-width: thin;
+  scrollbar-color: var(--line) transparent;
+}
+.scroll-thin::-webkit-scrollbar {
+  width: 8px;
+}
+.scroll-thin::-webkit-scrollbar-thumb {
+  background: var(--line);
+  border-radius: 8px;
+}
+
+/* Motion */
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes pulse-dot {
+  0%, 80%, 100% { opacity: 0.25; }
+  40% { opacity: 1; }
+}
+.anim-fade-up { animation: fade-up 180ms ease-out both; }
+.anim-fade-in { animation: fade-in 140ms ease-out both; }
+.typing-dot { animation: pulse-dot 1.2s infinite ease-in-out; }
+.typing-dot:nth-child(2) { animation-delay: 0.15s; }
+.typing-dot:nth-child(3) { animation-delay: 0.3s; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ── Markdown prose ─────────────────────────────────────────── */
+.prose-chat {
+  font-size: 15px;
+  line-height: 1.65;
+  overflow-wrap: anywhere;
+}
+.prose-chat > * + * { margin-top: 0.8em; }
+.prose-chat h1, .prose-chat h2, .prose-chat h3, .prose-chat h4 {
+  font-weight: 600;
+  line-height: 1.3;
+  margin-top: 1.3em;
+}
+.prose-chat h1 { font-size: 1.35em; }
+.prose-chat h2 { font-size: 1.2em; }
+.prose-chat h3 { font-size: 1.08em; }
+.prose-chat h4 { font-size: 1em; }
+.prose-chat p:first-child, .prose-chat h1:first-child, .prose-chat h2:first-child, .prose-chat h3:first-child { margin-top: 0; }
+.prose-chat strong { font-weight: 600; }
+.prose-chat a { color: var(--accent); text-decoration: underline; text-underline-offset: 3px; }
+.prose-chat ul, .prose-chat ol { padding-left: 1.4em; }
+.prose-chat ul { list-style: disc; }
+.prose-chat ol { list-style: decimal; }
+.prose-chat li + li { margin-top: 0.25em; }
+.prose-chat li > ul, .prose-chat li > ol { margin-top: 0.25em; }
+.prose-chat blockquote {
+  border-left: 3px solid var(--line);
+  padding-left: 1em;
+  color: var(--muted);
+}
+.prose-chat hr { border: 0; border-top: 1px solid var(--line); margin: 1.5em 0; }
+.prose-chat code:not(pre code) {
+  font-family: var(--font-mono);
+  font-size: 0.875em;
+  background: var(--raised);
+  padding: 0.15em 0.4em;
+  border-radius: 5px;
+}
+.prose-chat pre {
+  margin: 0;
+  overflow-x: auto;
+  padding: 0.9rem 1rem;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  line-height: 1.6;
+  background: transparent;
+}
+.prose-chat pre code { font-family: inherit; }
+.prose-chat table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.93em;
+}
+.prose-chat th, .prose-chat td {
+  border: 1px solid var(--line);
+  padding: 0.45em 0.7em;
+  text-align: left;
+  vertical-align: top;
+}
+.prose-chat th { background: var(--raised); font-weight: 600; }
+.prose-chat img { max-width: 100%; border-radius: 8px; }
+
+/* Plain-text fallback when markdown rendering is off */
+.prose-plain {
+  font-size: 15px;
+  line-height: 1.65;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+/* highlight.js theme mapped to our tokens (light + dark) */
+.hljs { color: var(--ink); }
+.hljs-comment, .hljs-quote { color: var(--faint); font-style: italic; }
+.hljs-keyword, .hljs-selector-tag, .hljs-literal, .hljs-name { color: #7c3aed; }
+.dark .hljs-keyword, .dark .hljs-selector-tag, .dark .hljs-literal, .dark .hljs-name { color: #c4b5fd; }
+.hljs-string, .hljs-attr, .hljs-template-variable, .hljs-addition { color: #15803d; }
+.dark .hljs-string, .dark .hljs-attr, .dark .hljs-template-variable, .dark .hljs-addition { color: #86efac; }
+.hljs-number, .hljs-regexp, .hljs-symbol, .hljs-bullet { color: #b45309; }
+.dark .hljs-number, .dark .hljs-regexp, .dark .hljs-symbol, .dark .hljs-bullet { color: #fcd34d; }
+.hljs-title, .hljs-section, .hljs-function .hljs-title, .hljs-title.function_ { color: #1d4ed8; }
+.dark .hljs-title, .dark .hljs-section, .dark .hljs-title.function_ { color: #93c5fd; }
+.hljs-built_in, .hljs-type, .hljs-class .hljs-title, .hljs-title.class_ { color: #0e7490; }
+.dark .hljs-built_in, .dark .hljs-type, .dark .hljs-title.class_ { color: #67e8f9; }
+.hljs-variable, .hljs-params, .hljs-property { color: var(--ink); }
+.hljs-meta, .hljs-doctag, .hljs-tag { color: var(--muted); }
+.hljs-deletion { color: #b91c1c; }
+.hljs-emphasis { font-style: italic; }
+.hljs-strong { font-weight: 600; }
+
+/* Inputs whose container already shows the focus state */
+.no-ring:focus-visible {
+  outline: none;
+}
