@@ -23,8 +23,16 @@ function isCrossSiteMutation(req: NextRequest): boolean {
   }
 }
 
+/**
+ * Paths served to anyone, with no session and no same-origin requirement:
+ * the public NEXUS endpoint and the static hub page that calls it.
+ */
+const OPEN_PATHS = ["/api/nexus", "/nexus.html"];
+
 export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
+
+  if (OPEN_PATHS.includes(pathname)) return NextResponse.next();
 
   if (isCrossSiteMutation(req)) {
     return NextResponse.json({ error: { code: "forbidden", message: "Cross-site request blocked." } }, { status: 403 });
